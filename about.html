@@ -306,12 +306,48 @@
         }
 
         /* HERO */
-        .hero-wrap {
+        /* .hero-wrap {
             position: relative;
             width: 100%;
             overflow: hidden;
             margin-top: 80px;
-        }
+        } */
+         .hero-wrap{
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    overflow: hidden;
+}
+
+.hero-video{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.hero-overlay{
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.55);
+    z-index:2;
+}
+
+.hero-content{
+    position: relative;
+    z-index:3;
+    height:100%;
+    display:flex;
+    align-items:flex-end;
+    padding-bottom:5vh;
+    padding-left: clamp(16px,4vw,56px);
+}
 
         .hero-bg {
             position: relative;
