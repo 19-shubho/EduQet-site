@@ -3,35 +3,1454 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us - Eduqet</title>
-  <link rel="stylesheet" href="./styles.css">
+  <title>Contact Us | QuSyn Tech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <style>
+    /* -------- GLOBAL STYLES -------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #000;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ---------------- ENHANCED FLOATING NAVBAR ---------------- */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 1200px;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 12px;
+      z-index: 1000;
+      border: 1px solid rgba(74, 144, 226, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s ease;
+    }
+
+    nav.scrolled {
+      top: 10px;
+      background: rgba(0, 0, 0, 0.92);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      height: 40px;
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .logo img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    /* Desktop Navigation */
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .desktop-nav-links {
+      display: flex;
+      list-style: none;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .desktop-nav-links li {
+      position: relative;
+    }
+
+    .desktop-nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+      padding: 8px 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .desktop-nav-links a:hover {
+      color: #4A90E2;
+    }
+
+    .desktop-nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #4A90E2;
+      transition: width 0.3s;
+    }
+
+    .desktop-nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Desktop Dropdown */
+    .desktop-dropdown {
+      position: relative;
+    }
+
+    .desktop-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .desktop-dropdown-toggle::after {
+      content: '▼';
+      font-size: 0.65rem;
+      transition: transform 0.3s;
+      margin-top: 2px;
+    }
+
+    .desktop-dropdown.active .desktop-dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .desktop-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(74, 144, 226, 0.3);
+      border-radius: 8px;
+      padding: 12px 0;
+      min-width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 1001;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      list-style: none;
+    }
+
+    .desktop-dropdown.active .desktop-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(5px);
+    }
+
+    .desktop-dropdown-menu li {
+      margin: 0;
+    }
+
+    .desktop-dropdown-menu a {
+      display: block;
+      padding: 10px 20px;
+      color: #ccc;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .desktop-dropdown-menu a:hover {
+      color: #4A90E2;
+      background: rgba(74, 144, 226, 0.1);
+    }
+
+    /* Mobile Navigation */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 30px;
+      height: 25px;
+      cursor: pointer;
+      z-index: 1001;
+      position: relative;
+    }
+
+    .hamburger span {
+      width: 100%;
+      height: 3px;
+      background: #fff;
+      transition: all 0.3s;
+      transform-origin: center;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(7px, 7px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .nav-overlay {
+      position: fixed;
+      top: 0;
+      right: -50%;
+      width: 50%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(15px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      overflow-y: auto;
+      border-left: 1px solid rgba(74, 144, 226, 0.2);
+    }
+
+    .nav-overlay.active {
+      right: 0;
+    }
+
+    .nav-links-container {
+      list-style: none;
+      text-align: center;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .nav-links-container li {
+      margin: 20px 0;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: all 0.4s ease;
+    }
+
+    .nav-overlay.active .nav-links-container li {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .nav-links-container a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.3rem;
+      font-weight: 500;
+      display: block;
+      padding: 10px 20px;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .nav-links-container a:hover {
+      color: #4A90E2;
+    }
+
+    .nav-links-container a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #4A90E2;
+      transition: all 0.3s;
+    }
+
+    .nav-links-container a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dropdown-toggle::after {
+      content: '▼';
+      font-size: 0.8rem;
+      margin-left: 8px;
+      transition: transform 0.3s;
+    }
+
+    .dropdown.active .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      list-style: none;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .dropdown.active .dropdown-menu {
+      max-height: 200px;
+    }
+
+    .dropdown-menu li {
+      margin: 10px 0;
+    }
+
+    .dropdown-menu a {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    .dropdown-menu a:hover {
+      color: #4A90E2;
+    }
+
+    .nav-links-container li:nth-child(1) { transition-delay: 0.1s; }
+    .nav-links-container li:nth-child(2) { transition-delay: 0.15s; }
+    .nav-links-container li:nth-child(3) { transition-delay: 0.2s; }
+    .nav-links-container li:nth-child(4) { transition-delay: 0.25s; }
+    .nav-links-container li:nth-child(5) { transition-delay: 0.3s; }
+    .nav-links-container li:nth-child(6) { transition-delay: 0.35s; }
+    .nav-links-container li:nth-child(7) { transition-delay: 0.4s; }
+
+    /* Responsive Styles */
+    @media (max-width: 1024px) {
+      nav {
+        width: 95%;
+        padding: 12px 25px;
+      }
+      
+      .desktop-nav-links {
+        gap: 20px;
+      }
+      
+      .nav-overlay {
+        width: 70%;
+        right: -70%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      nav {
+        width: 95%;
+        padding: 12px 20px;
+        top: 10px;
+      }
+      
+      .desktop-nav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      .nav-overlay {
+        width: 85%;
+        right: -85%;
+      }
+      
+      .nav-links-container a {
+        font-size: 1.2rem;
+      }
+      
+      .brand-name {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-overlay {
+        width: 100%;
+        right: -100%;
+      }
+      
+      .brand-name {
+        font-size: 1.2rem;
+      }
+      
+      .logo {
+        height: 35px;
+        width: 35px;
+      }
+    }
+
+    /* --- HERO SECTION --- */
+    .hero-section {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-top: 0;
+      padding-top: 80px;
+    }
+
+    .video-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 2;
+    }
+
+    .hero-content {
+      text-align: center;
+      max-width: 900px;
+      padding: 0 20px;
+      z-index: 3;
+      position: relative;
+    }
+
+    .hero-title {
+      font-size: 4.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffffff, #52c2baff, #000000ff);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientText 5s ease infinite;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    @keyframes gradientText {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: #eaeaea;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 15px 40px;
+      background: linear-gradient(135deg, #ffffffff, #000000ff);
+      color: #000;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(63, 64, 65, 0.3);
+      opacity: 0;
+      transform: translateY(30px);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ffffffff, rgba(26, 155, 127, 1));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(255, 255, 255, 0.5);
+    }
+
+    .cta-button:hover::before {
+      opacity: 1;
+    }
+
+    /* --- CONTACT SECTION --- */
+    .contact-section {
+      padding: 120px 20px;
+      background-color: #0a0a0a;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-info {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 30px;
+      color: #fff;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(135deg, #ffffff, #52c2ba);
+      border-radius: 2px;
+    }
+
+    .contact-description {
+      font-size: 1.1rem;
+      color: #eaeaea;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .contact-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .contact-method:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .contact-icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffffff, #52c2ba);
+      border-radius: 50%;
+      font-size: 1.5rem;
+      color: #000;
+    }
+
+    .contact-details h3 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      color: #fff;
+    }
+
+    .contact-details p {
+      color: #aaa;
+      font-size: 1rem;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateX(50px);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-form::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(82, 194, 186, 0.05));
+      z-index: -1;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #eaeaea;
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #ffffff, #52c2ba);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2);
+    }
+
+    .submit-btn:hover::before {
+      left: 100%;
+    }
+
+    /* --- MAP SECTION --- */
+    .map-section {
+      padding: 80px 20px;
+      background-color: transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .map-text {
+      margin-bottom: 20px;
+    }
+
+    .map-text h3 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #ffffffff;
+    }
+
+    .map-text p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    .map-embed iframe {
+      width: 100%;
+      height: 400px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      padding: 28px 40px;
+      border-top: 1px solid rgba(74, 144, 226, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #000;
+      color: #e9f2ff;
+      font-size: 0.95rem;
+      font-family: 'Inter', 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
+    }
+
+    footer .footer-left,
+    footer .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    footer .brand {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(74, 144, 226, 0.1);
+      border-radius: 8px;
+      color: #dbeeff;
+      text-decoration: none;
+      transition: transform .18s, background .18s;
+    }
+
+    .social-links a:hover {
+      background: linear-gradient(135deg, #4A90E2, #00d4ff);
+      color: #001018;
+      transform: translateY(-3px);
+    }
+
+    /* Responsive styles */
+    @media (max-width: 968px) {
+      .contact-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      .hero-title {
+        font-size: 3.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.8rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .contact-form {
+        padding: 30px 20px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+
+      footer .footer-left,
+      footer .footer-right {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+      
+      .contact-method {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <header>
-    <h1>Contact Us</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="contact.html">Contact</a></li>
+  <!-- Enhanced Floating Navbar -->
+  <nav>
+    <div class="logo-container">
+      <div class="logo">
+        <a href="/"><img src="images/qusyn.jpg" alt="QUSYN TECH Logo"></a>
+      </div>
+      <div class="brand-name">QUSYN TECH</div>
+    </div>
+    
+    <!-- Desktop Navigation -->
+    <div class="desktop-nav">
+      <ul class="desktop-nav-links">
+        <li><a href="/index">Home</a></li>
+        <li><a href="/about-us">About</a></li>
+        <li><a href="/course-work">Coursework</a></li>
+        <li><a href="/contact-us">Consult</a></li>
       </ul>
-    </nav>
-  </header>
-  <main>
-    <section>
-      <h2>We’d love to hear from you!</h2>
-      <p>
-        Please reach out to us directly by email at 
-        <a href="mailto:info@qusyn.com">info@qusyn.com</a>.
+    </div>
+    
+    <!-- Mobile Navigation -->
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Centered Navigation Overlay -->
+  <div class="nav-overlay">
+    <ul class="nav-links-container">
+      <li><a href="/index">Home</a></li>
+      <li><a href="/about-us">About</a></li>
+      <li><a href="/course-work">Coursework</a></li>
+      <li><a href="/contact-us">Consult</a></li>
+    </ul>
+  </div>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero-section">
+    <!-- Video Background -->
+    <video class="video-background" autoplay muted loop playsinline>
+      <source src="images/contact.mp4" type="video/mp4">
+      <!-- Fallback image in case video doesn't load -->
+    </video>
+    <div class="video-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Get In Touch</h1>
+      <p class="hero-subtitle">Let's discuss how quantum technology can transform your business</p>
+      <a href="#" class="cta-button" onclick="scrollToForm()">Start Conversation</a>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT SECTION ===== -->
+  <section class="contact-section">
+    <div class="contact-container">
+      <div class="contact-info">
+        <h2 class="section-title">Contact Information</h2>
+        <p class="contact-description">
+          We're here to answer any questions you may have about our quantum solutions. 
+          Reach out to us and we'll respond as soon as we can.
+        </p>
+        
+        <div class="contact-methods">
+          <div class="contact-method">
+            <div class="contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-details">
+              <h3>Our Location</h3>
+              <p>Raman Research Institute, Sadashivanagar, Bangalore, India</p>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="contact-details">
+              <h3>Phone Number</h3>
+              <p>+91 96746 44323</p>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-details">
+              <h3>Email Address</h3>
+              <p>info@qusyn.com</p>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="contact-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="contact-details">
+              <h3>Working Hours</h3>
+              <p>Monday - Friday: 9:00 - 18:00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="contact-form" id="contact-form">
+      <h2 class="section-title">Start a Conversation</h2>
+
+      <p style="color:#ccc; margin-bottom:25px; line-height:1.7;">
+        We would love to hear from you. Whether you have a question about our
+        coursework, consulting services, or collaboration opportunities, feel free
+        to reach out to us directly via email.
       </p>
-      <p>
-        Our team will respond as soon as possible.
-      </p>
-    </section>
-  </main>
+
+      <div style="background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:30px; margin-top:20px; backdrop-filter: blur(10px);">
+        <p style="font-size:1.05rem;color:#ddd;margin-bottom:18px;">
+          Please send us an email including the following information:
+        </p>
+
+        <ul style="margin-left:20px;color:#bbb;line-height:1.9;">
+          <li><strong>Your Name</strong></li>
+          <li><strong>Email Address</strong></li>
+          <li><strong>Subject of Inquiry</strong></li>
+          <li><strong>Your Message</strong></li>
+        </ul>
+
+        <div style="margin-top:30px;text-align:center;">
+          <a href="mailto:info@qusyn.com?subject=Inquiry%20from%20Website"
+            style="
+              display:inline-block;
+              padding:16px 38px;
+              background:linear-gradient(135deg,#ffffff,#52c2ba);
+              color:#000;
+              text-decoration:none;
+              font-weight:600;
+              border-radius:8px;
+              font-size:1.1rem;
+              box-shadow:0 10px 25px rgba(255,255,255,0.15);
+              transition:all .3s ease;
+            "
+            onmouseover="this.style.transform='translateY(-3px)'"
+            onmouseout="this.style.transform='translateY(0)'"
+          >
+            <i class="fas fa-envelope" style="margin-right:10px;"></i>
+            Email Us
+          </a>
+        </div>
+
+        <p style="text-align:center;color:#888;margin-top:18px;font-size:0.9rem;">
+          Or send your email directly to <strong>info@qusyn.com</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAP SECTION ===== -->
+  <section class="map-section">
+    <div class="map-container">
+      <div class="map-text">
+      <h3>Visit Our Headquarters</h3>
+      <p>Raman Research Institute, Sadashivanagar, Bangalore</p>
+      </div>
+      <div class="map-embed">
+          <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.343123456789!2d77.577123!3d13.012345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f15!3m3!1m2!1s0x3bae3d123456789%3A0xabcdef123456789!2sRaman%20Research%20Institute!5e0!3m2!1sen!2sin!4v1696850000000!5m2!1sen!2sin"
+              width="100%"
+              height="400"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- ===== FOOTER ===== -->
   <footer>
-    <p>&copy; 2026 Eduqet. All rights reserved.</p>
+    <div class="footer-left">
+      <div class="brand">QUSYN TECH</div>
+    </div>
+    <div class="footer-right">
+      <p>&copy; 2025 Quantum Synergy. All rights reserved.</p>
+      <div class="social-links" aria-label="Social links">
+        <a href="https://www.linkedin.com/authwall?trk=bf&trkInfo=AQHiUP5zc59MHgAAAZndojwId2MxephVNgnOb6QKfoh_uzYAxxcx7PIxP5N16JQIEoY_oaSADAu9Z8E9jClvajZ4d2pxQgJtsgzMLodpyVDrOHQ6SxhV0NVkR7kdXxA1MCCt0Dc=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2Fqusyn-technologies%2F%3FviewAsMember%3Dtrue" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+        <a href="https://www.facebook.com/people/QuSyn-Tech/61580485172345/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+        <a href="https://www.youtube.com/@QuSynTech" target="_blank" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+        <a href="https://www.instagram.com/accounts/login/?next=%2Fqusyn_tech%2F&source=omni_redirect" target="_blank" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+      </div>
+    </div>
   </footer>
+
+  <script>
+    const startTime = Date.now();
+
+    document.getElementById("contactForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const email = formData.get("email");
+
+      // Email format check
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      // Honeypot check
+      if (formData.get("website")) {
+        alert("Spam detected.");
+        return;
+      }
+
+      // Submission timing check
+      const timeSpent = (Date.now() - startTime) / 1000;
+      if (timeSpent < 5) {
+        alert("Form submitted too quickly.");
+        return;
+      }
+
+      // AbstractAPI email verification
+      try {
+        const verifyRes = await fetch("https://domain.com/api/verify-email.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+        const verifyData = await verifyRes.json();
+        
+        if (!verifyData.valid) {
+          alert("Invalid or undeliverable email address.");
+          return;
+        }
+      } catch (error) {
+        alert("Email verification failed. Try again.");
+        return;
+      }
+
+      // CAPTCHA check
+      const recaptchaResponse = grecaptcha.getResponse();
+      if (!recaptchaResponse) {
+        alert("Please complete the CAPTCHA.");
+        return;
+      }
+
+        // Verify CAPTCHA server-side
+        try {
+          const captchaRes = await fetch("https://domain.com/api/verify-captcha.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ "g-recaptcha-response": recaptchaResponse })
+          });
+          const captchaData = await captchaRes.json();
+        
+          if (!captchaData.success) {
+            alert("CAPTCHA verification failed.");
+            return;
+          }
+        } catch (error) {
+          alert("CAPTCHA verification error.");
+          return;
+        }
+
+    // ✅ Do NOT append g-recaptcha-response to formData
+    // Submit clean form to FormSubmit
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+    
+
+      // Submit to FormSubmit
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        form.reset();
+        document.getElementById("thankYouMsg").style.display = "block";
+      } else {
+        alert("Submission failed.");
+      }
+    });
+  </script>
+  
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Enhanced Hamburger menu toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.querySelector('.hamburger');
+      const nav = document.querySelector('nav');
+      const navOverlay = document.querySelector('.nav-overlay');
+      const body = document.body;
+      const dropdowns = document.querySelectorAll('.dropdown');
+      const desktopDropdowns = document.querySelectorAll('.desktop-dropdown');
+      
+      // Mobile menu functionality
+      if (hamburger && navOverlay) {
+        hamburger.addEventListener('click', function() {
+          this.classList.toggle('active');
+          nav.classList.toggle('active');
+          navOverlay.classList.toggle('active');
+          body.style.overflow = navOverlay.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        navOverlay.querySelectorAll('a').forEach(link => {
+          if (!link.classList.contains('dropdown-toggle')) {
+            link.addEventListener('click', () => {
+              hamburger.classList.remove('active');
+              nav.classList.remove('active');
+              navOverlay.classList.remove('active');
+              body.style.overflow = '';
+            });
+          }
+        });
+        
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('nav') && 
+              !e.target.closest('.nav-overlay') && 
+              navOverlay.classList.contains('active')) {
+            hamburger.classList.remove('active');
+            nav.classList.remove('active');
+            navOverlay.classList.remove('active');
+            body.style.overflow = '';
+          }
+        });
+        
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && navOverlay.classList.contains('active')) {
+            hamburger.classList.remove('active');
+            nav.classList.remove('active');
+            navOverlay.classList.remove('active');
+            body.style.overflow = '';
+          }
+        });
+        
+        dropdowns.forEach(dropdown => {
+          const toggle = dropdown.querySelector('.dropdown-toggle');
+          
+          toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            dropdowns.forEach(other => {
+              if (other !== dropdown) {
+                other.classList.remove('active');
+              }
+            });
+            
+            dropdown.classList.toggle('active');
+          });
+        });
+        
+        navOverlay.addEventListener('click', function(e) {
+          if (!e.target.closest('.dropdown')) {
+            dropdowns.forEach(dropdown => {
+              dropdown.classList.remove('active');
+            });
+          }
+        });
+      }
+      
+      // Desktop dropdown functionality
+      desktopDropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.desktop-dropdown-toggle');
+        
+        toggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          desktopDropdowns.forEach(other => {
+            if (other !== dropdown) {
+              other.classList.remove('active');
+            }
+          });
+          
+          dropdown.classList.toggle('active');
+        });
+      });
+      
+      // Close desktop dropdowns when clicking elsewhere
+      document.addEventListener('click', function() {
+        desktopDropdowns.forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
+      });
+      
+      // Prevent dropdowns from closing when clicking inside them
+      desktopDropdowns.forEach(dropdown => {
+        dropdown.addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
+      });
+    });
+
+    function scrollToForm() {
+      const form = document.getElementById('contact-form');
+      if (form) {
+        const offset = form.getBoundingClientRect().top + window.scrollY - 100; // Adjust offset
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+      }
+    }
+
+    // Enhanced Smooth Scrolling with GSAP
+    document.addEventListener('DOMContentLoaded', function() {
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+      
+      // Disable CSS smooth scrolling to let GSAP handle it
+      document.documentElement.style.scrollBehavior = 'auto';
+      
+      // Enhanced smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const href = this.getAttribute('href');
+          
+          // Skip if it's just "#"
+          if (href === '#' || href === '#!') return;
+          
+          // Don't prevent default for external page links
+          if (href.includes('.php') && !href.includes(window.location.pathname)) {
+            return; // Let browser handle external page navigation
+          }
+          
+          e.preventDefault();
+          
+          const targetElement = document.querySelector(href);
+          if (targetElement) {
+            // Calculate offset for fixed header
+            const headerHeight = document.querySelector('nav')?.offsetHeight || 80;
+            const targetPosition = targetElement.offsetTop - headerHeight;
+            
+            // Use GSAP for smooth scrolling
+            gsap.to(window, {
+              duration: 1.2,
+              scrollTo: {
+                y: targetPosition,
+                autoKill: false,
+                onAutoKill: () => console.log('Scroll interrupted')
+              },
+              ease: "power2.inOut",
+              overwrite: true
+            });
+            
+            // Update URL without page jump
+            history.pushState(null, null, href);
+          }
+        });
+      });
+      
+      // Enable smooth scrolling for the entire page
+      let scrollTimeout;
+      function smoothScrollWheel(e) {
+        if (Math.abs(e.deltaY) > 50) { // Only for significant scrolls
+          e.preventDefault();
+          const currentScroll = window.pageYOffset;
+          const targetScroll = currentScroll + (e.deltaY * 1.5); // Amplify scroll
+          
+          gsap.to(window, {
+            duration: 0.8,
+            scrollTo: {
+              y: targetScroll,
+              autoKill: true
+            },
+            ease: "power2.out",
+            overwrite: true
+          });
+        }
+      }
+      
+      // Apply smooth scrolling to wheel events
+      window.addEventListener('wheel', smoothScrollWheel, { passive: false });
+      
+      // Clean up on page unload
+      window.addEventListener('beforeunload', () => {
+        window.removeEventListener('wheel', smoothScrollWheel);
+      });
+    });
+
+    // Initialize animations when page loads
+    window.addEventListener('load', function() {
+      // Hero section animations
+      gsap.to('.hero-title', {
+        duration: 1,
+        opacity: 1,
+        y: 0,
+        ease: "power2.out",
+        delay: 0.3
+      });
+      
+      gsap.to('.hero-subtitle', {
+        duration: 1,
+        opacity: 1,
+        y: 0,
+        ease: "power2.out",
+        delay: 0.5
+      });
+      
+      gsap.to('.cta-button', {
+        duration: 1,
+        opacity: 1,
+        y: 0,
+        ease: "power2.out",
+        delay: 0.7
+      });
+      
+      // Contact section animations with scroll trigger
+      gsap.to('.contact-info', {
+        scrollTrigger: {
+          trigger: '.contact-info',
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse'
+        },
+        duration: 1,
+        opacity: 1,
+        x: 0,
+        ease: "power2.out"
+      });
+      
+      gsap.to('.contact-form', {
+        scrollTrigger: {
+          trigger: '.contact-form',
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse'
+        },
+        duration: 1,
+        opacity: 1,
+        x: 0,
+        ease: "power2.out"
+      });
+      
+      // Map section animation
+      gsap.to('.map-container', {
+        scrollTrigger: {
+          trigger: '.map-container',
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse'
+        },
+        duration: 15,
+        opacity: 1,
+        y: 0,
+        ease: "power2.out"
+      });
+    });
+
+    // Force load all images immediately
+    window.addEventListener('load', function() {
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        if (!img.complete) {
+          const preloadImg = new Image();
+          preloadImg.src = img.src;
+        }
+      });
+    });
+  </script>
 </body>
 </html>
