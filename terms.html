@@ -1,143 +1,1026 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms and Policies - Eduqet</title>
-  <link rel="stylesheet" href="./styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms and Conditions | Quantum Synergy (QuSyn)</title>
+
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
+  <style>
+    /* -------- GLOBAL STYLES -------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #111;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ---------------- ENHANCED FLOATING NAVBAR (FROM NEWSLETTER) ---------------- */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 1200px;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 12px;
+      z-index: 1000;
+      border: 1px solid rgba(74, 144, 226, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s ease;
+    }
+
+    nav.scrolled {
+      top: 10px;
+      background: rgba(0, 0, 0, 0.92);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      height: 40px;
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .logo img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    /* Desktop Navigation */
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .desktop-nav-links {
+      display: flex;
+      list-style: none;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .desktop-nav-links li {
+      position: relative;
+    }
+
+    .desktop-nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+      padding: 8px 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .desktop-nav-links a:hover {
+      color: #4A90E2;
+    }
+
+    .desktop-nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #4A90E2;
+      transition: width 0.3s;
+    }
+
+    .desktop-nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Desktop Dropdown */
+    .desktop-dropdown {
+      position: relative;
+    }
+
+    .desktop-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .desktop-dropdown-toggle::after {
+      content: '▼';
+      font-size: 0.65rem;
+      transition: transform 0.3s;
+      margin-top: 2px;
+    }
+
+    .desktop-dropdown.active .desktop-dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .desktop-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(74, 144, 226, 0.3);
+      border-radius: 8px;
+      padding: 12px 0;
+      min-width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 1001;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      list-style: none; /* Remove bullets from dropdown */
+    }
+
+    .desktop-dropdown.active .desktop-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(5px);
+    }
+
+    .desktop-dropdown-menu li {
+      margin: 0;
+    }
+
+    .desktop-dropdown-menu a {
+      display: block;
+      padding: 10px 20px;
+      color: #ccc;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .desktop-dropdown-menu a:hover {
+      color: #4A90E2;
+      background: rgba(74, 144, 226, 0.1);
+    }
+
+    /* Mobile Navigation */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 30px;
+      height: 25px;
+      cursor: pointer;
+      z-index: 1001;
+      position: relative;
+    }
+
+    .hamburger span {
+      width: 100%;
+      height: 3px;
+      background: #fff;
+      transition: all 0.3s;
+      transform-origin: center;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(7px, 7px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .nav-overlay {
+      position: fixed;
+      top: 0;
+      right: -50%;
+      width: 50%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(15px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      overflow-y: auto;
+      border-left: 1px solid rgba(74, 144, 226, 0.2);
+    }
+
+    .nav-overlay.active {
+      right: 0;
+    }
+
+    .nav-links-container {
+      list-style: none;
+      text-align: center;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .nav-links-container li {
+      margin: 20px 0;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: all 0.4s ease;
+    }
+
+    .nav-overlay.active .nav-links-container li {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .nav-links-container a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.3rem;
+      font-weight: 500;
+      display: block;
+      padding: 10px 20px;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .nav-links-container a:hover {
+      color: #4A90E2;
+    }
+
+    .nav-links-container a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #4A90E2;
+      transition: all 0.3s;
+    }
+
+    .nav-links-container a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dropdown-toggle::after {
+      content: '▼';
+      font-size: 0.8rem;
+      margin-left: 8px;
+      transition: transform 0.3s;
+    }
+
+    .dropdown.active .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      list-style: none;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .dropdown.active .dropdown-menu {
+      max-height: 200px;
+    }
+
+    .dropdown-menu li {
+      margin: 10px 0;
+    }
+
+    .dropdown-menu a {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    .dropdown-menu a:hover {
+      color: #4A90E2;
+    }
+
+    .nav-links-container li:nth-child(1) { transition-delay: 0.1s; }
+    .nav-links-container li:nth-child(2) { transition-delay: 0.15s; }
+    .nav-links-container li:nth-child(3) { transition-delay: 0.2s; }
+    .nav-links-container li:nth-child(4) { transition-delay: 0.25s; }
+    .nav-links-container li:nth-child(5) { transition-delay: 0.3s; }
+    .nav-links-container li:nth-child(6) { transition-delay: 0.35s; }
+    .nav-links-container li:nth-child(7) { transition-delay: 0.4s; }
+
+    /* Responsive Styles */
+    @media (max-width: 1024px) {
+      nav {
+        width: 95%;
+        padding: 12px 25px;
+      }
+      
+      .desktop-nav-links {
+        gap: 20px;
+      }
+      
+      .nav-overlay {
+        width: 70%;
+        right: -70%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      nav {
+        width: 95%;
+        padding: 12px 20px;
+        top: 10px;
+      }
+      
+      .desktop-nav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      .nav-overlay {
+        width: 85%;
+        right: -85%;
+      }
+      
+      .nav-links-container a {
+        font-size: 1.2rem;
+      }
+      
+      .brand-name {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-overlay {
+        width: 100%;
+        right: -100%;
+      }
+      
+      .brand-name {
+        font-size: 1.2rem;
+      }
+      
+      .logo {
+        height: 35px;
+        width: 35px;
+      }
+    }
+
+    /* -------- TERMS SECTION -------- */
+    .terms-section {
+      position: relative;
+      background-color: #111;
+      padding: 120px 20px 80px;
+      color: #e6eef8;
+      min-height: 60vh;
+    }
+
+    .terms-container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .terms-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #fff;
+      text-align: left;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 10px;
+      font-weight: 300;
+    }
+
+    .terms-subtitle {
+      text-align: left;
+      color: #706a6aff;
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+
+    .terms-block { 
+      margin-bottom: 18px; 
+      color: #acb8b6ff; 
+      font-size: 1rem; 
+      line-height:1.6; 
+    }
+
+    .terms-block strong { 
+      color: #fffdfdee; 
+    }
+
+    .terms-block a {
+      color: #4A90E2;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .terms-block a:hover {
+      color: #00d4ff;
+    }
+
+    .terms-list { 
+      margin-left: 18px; 
+      margin-bottom: 12px; 
+      color:#acb8b6ff; 
+    }
+
+    .small-muted { 
+      color:#9fb5d6; 
+      font-size:0.95rem; 
+      margin-top:8px; 
+      text-align: left; 
+    }
+
+    /* --- FOOTER (FROM NEWSLETTER) --- */
+    footer {
+      padding: 28px 40px;
+      border-top: 1px solid rgba(74, 144, 226, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #000;
+      color: #e9f2ff;
+      font-size: 0.95rem;
+      font-family: 'Inter', 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
+    }
+
+    footer .footer-left,
+    footer .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    footer .brand {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(74, 144, 226, 0.1);
+      border-radius: 8px;
+      color: #dbeeff;
+      text-decoration: none;
+      transition: transform .18s, background .18s;
+    }
+
+    .social-links a:hover {
+      background: linear-gradient(135deg, #4A90E2, #00d4ff);
+      color: #001018;
+      transform: translateY(-3px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .terms-section { 
+        padding-top: 100px; 
+      }
+
+      .terms-title {
+        font-size: 1.6rem;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+
+      footer .footer-left,
+      footer .footer-right {
+        flex-direction: column;
+      }
+    }
+  </style>
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '808759878272750');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=808759878272750&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
-  <header>
-    <h1>Terms and Policies</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section>
-      <h2>TERMS AND CONDITIONS</h2>
-      <p><strong>QuSyn Coursework on Quantum Technologies — Effective Date: 6 August 2025</strong></p>
-
-      <h3>1. Service Overview</h3>
-      <p>QuSyn, in partnership with qBraid, provides educational coursework in quantum technologies across Bengali, English, Kannada, and Hindi. Successful participants may receive a certificate of completion.</p>
-
-      <h3>2. Audience and Eligibility</h3>
-      <p>Open to individuals, students, professionals, and organizations legally capable of entering binding agreements. Restricted in jurisdictions where access or participation would be unlawful.</p>
-
-      <h3>3. Usage Policy</h3>
-      <ul>
-        <li>Sublicense, share, or transfer access credentials</li>
-        <li>Copy, reproduce, distribute, or publicly display course materials</li>
-        <li>Modify, reverse-engineer, or recreate any content</li>
-        <li>Use materials for commercial, institutional, or promotional gain</li>
-        <li>Circumvent access restrictions or security features</li>
-      </ul>
-      <p>Exceptions are allowed only with written consent from QuSyn.</p>
-
-      <h3>4. Intellectual Property</h3>
-      <p>All course content—including visuals, code, translations, and documents—is the sole intellectual property of QuSyn. Unauthorized use or distribution may result in legal action.</p>
-
-      <h3>5. Payment and Refunds</h3>
-      <p>Access is granted via one-time payment. Non-refundable, except in cases of:</p>
-      <ul>
-        <li>Failed transactions</li>
-        <li>Unresolved login/access issues within 15 days of reporting to QuSyn/qBraid</li>
-      </ul>
-
-      <h3>6. Certification</h3>
-      <p>Participants who complete the coursework and meet usage terms may receive a certificate of completion. This certificate affirms participation but does not guarantee job placement, professional advancement, or academic credit.</p>
-
-      <h3>7. Termination of Access</h3>
-      <p>QuSyn may revoke access without refund if any clauses—especially relating to usage and intellectual property—are violated.</p>
-
-      <h3>8. Disclaimers and Limitations</h3>
-      <ul>
-        <li>The coursework is for educational purposes only</li>
-        <li>QuSyn and qBraid do not guarantee employment or accreditation outcomes</li>
-        <li>Both parties are fully indemnified from claims arising from content use or misuse</li>
-      </ul>
-
-      <h3>9. Accessibility Statement</h3>
-      <p>QuSyn is committed to multilingual accessibility. Content is available in Bengali, English, Kannada, and Hindi. Format requests for disability accommodations will be considered upon request.</p>
-
-      <h3>10. Tools and Integrations</h3>
-      <p>QuSyn may use third-party tools for payment, learning management, and certification (e.g., Google Forms, Zoom, LMS portals). These tools operate under their own data and usage policies.</p>
-
-      <h3>11. Policy Updates</h3>
-      <p>QuSyn reserves the right to modify these Terms at any time. Updated versions will be posted and effective immediately unless stated otherwise.</p>
-
-      <h3>12. Contact</h3>
-      <p>Email: <a href="mailto:info@qusyn.com">info@qusyn.com</a><br>
-      Location: Bengaluru, India</p>
-    </section>
-
-    <section>
-      <h2>PRIVACY POLICIES</h2>
-      <p><strong>QuSyn Coursework Platform — Effective Date: 6 August 2025</strong></p>
-
-      <h3>1. Data We Collect</h3>
-      <ul>
-        <li>Name, email, language preference</li>
-        <li>Login credentials, access history</li>
-        <li>Payment details (via secure third-party processors)</li>
-        <li>Certification completion status</li>
-      </ul>
-
-      <h3>2. How We Use Your Data</h3>
-      <ul>
-        <li>To grant coursework access</li>
-        <li>To issue certifications</li>
-        <li>To communicate support or platform updates</li>
-        <li>To evaluate and improve course delivery</li>
-      </ul>
-
-      <h3>3. Data Sharing</h3>
-      <p>Your data may be shared only with:</p>
-      <ul>
-        <li>qBraid for certification and support</li>
-        <li>Trusted third-party services (e.g., payment platforms, hosting tools)</li>
-      </ul>
-      <p>No data is sold, rented, or disclosed to advertisers or external entities.</p>
-
-      <h3>4. Security Measures</h3>
-      <p>We protect your data via secure communication protocols (SSL/TLS), admin-restricted access, and routine audits for compliance.</p>
-
-      <h3>5. Your Rights</h3>
-      <p>Depending on jurisdiction, users may access their data, request updates or deletion, and withdraw consent where applicable. Contact: <a href="mailto:info@qusyn.com">info@qusyn.com</a></p>
-
-      <h3>6. Cookie Use</h3>
-      <p>If hosted online, cookies may be used for analytics and session management.</p>
-
-      <h3>7. Legal Compliance</h3>
-      <p>This policy complies with Indian data protection law and relevant international standards including EU GDPR. Disputes will be handled under the jurisdiction of Bengaluru, India.</p>
-
-      <h3>8. Policy Changes</h3>
-      <p>This Privacy Policy may be updated periodically. Continued use of the platform signifies acceptance of the latest version.</p>
-    </section>
-
-    <section>
-      <h2>RETURN AND REFUND POLICY</h2>
-      <p><strong>QuSyn Coursework Platform — Effective Date: 6 August 2025</strong></p>
-      <ol>
-        <li>Access is granted via a one-time payment.</li>
-        <li>Purchases are non-refundable, except in cases of:
-          <ul>
-            <li>Payment processing failures</li>
-            <li>Access or login issues that remain unresolved within 15 calendar days of notification to QuSyn Tech</li>
+  <!-- Enhanced Floating Navbar (FROM NEWSLETTER) -->
+  <nav>
+    <div class="logo-container">
+      <div class="logo">
+        <img src="images/qusyn_nb.png" alt="QUSYN TECH Logo">
+      </div>
+      <div class="brand-name">QUSYN TECH</div>
+    </div>
+    
+    <!-- Desktop Navigation -->
+    <div class="desktop-nav">
+      <ul class="desktop-nav-links">
+        <li><a href="/index">Home</a></li>
+        <li><a href="/about-us">About</a></li>
+        <li class="desktop-dropdown">
+          <a href="#" class="desktop-dropdown-toggle">Research</a>
+          <ul class="desktop-dropdown-menu">
+            <li><a href="/domains">Domains</a></li>
+            <li><a href="/publications">Publications</a></li>
           </ul>
         </li>
-      </ol>
-    </section>
-  </main>
+        <li><a href="/solutions">Solutions</a></li>
+        <li><a href="/course-work">Coursework</a></li>
+        <li><a href="/newsletter">Newsletter</a></li>
+        <li><a href="/careers">Careers</a></li>
+        <li><a href="/contact-us">Consult</a></li>
+      </ul>
+    </div>
+    
+    <!-- Mobile Navigation -->
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
 
+  <!-- Centered Navigation Overlay (FROM NEWSLETTER) -->
+  <div class="nav-overlay">
+    <ul class="nav-links-container">
+      <li><a href="/index">Home</a></li>
+      <li><a href="/about-us">About</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle">Research</a>
+        <ul class="dropdown-menu">
+          <li><a href="/domains">Domains</a></li>
+          <li><a href="/publications">Publications</a></li>
+        </ul>
+      </li>
+      <li><a href="/solutions">Solutions</a></li>
+      <li><a href="/course-work">Coursework</a></li>
+      <li><a href="/newsletter">Newsletter</a></li>
+      <li><a href="/careers">Careers</a></li>
+      <li><a href="/contact-us">Consult</a></li>
+    </ul>
+  </div>
+
+  <!-- ===== TERMS & CONDITIONS CONTENT ===== -->
+  <section id="terms" class="terms-section" aria-labelledby="terms-title">
+    <div class="terms-container">
+      <h1 id="terms-title" class="terms-title">TERMS AND CONDITIONS</h1>
+
+      <p class="terms-subtitle">QuSyn Coursework on Quantum Technologies — <strong>Effective Date: 6 August 2025</strong></p>
+
+      <div class="terms-block">
+        <strong>1. Service Overview</strong><br>
+        QuSyn, in partnership with qBraid, provides educational coursework in quantum technologies across Bengali, English, Kannada, and Hindi. Successful participants may receive a certificate of completion.
+      </div>
+
+      <div class="terms-block">
+        <strong>2. Audience and Eligibility</strong><br>
+        Open to individuals, students, professionals, and organizations legally capable of entering binding agreements. Restricted in jurisdictions where access or participation would be unlawful.
+      </div>
+
+      <div class="terms-block">
+        <strong>3. Usage Policy</strong><br>
+        Users must not:
+        <ul class="terms-list">
+          <li>Sublicense, share, or transfer access credentials</li>
+          <li>Copy, reproduce, distribute, or publicly display course materials</li>
+          <li>Modify, reverse-engineer, or recreate any content</li>
+          <li>Use materials for commercial, institutional, or promotional gain</li>
+          <li>Circumvent access restrictions or security features</li>
+        </ul>
+        Exceptions are allowed <strong>only with written consent from QuSyn.</strong>
+      </div>
+
+      <div class="terms-block">
+        <strong>4. Intellectual Property</strong><br>
+        All course content—including visuals, code, translations, and documents—is the sole intellectual property of <strong>QuSyn</strong>. Unauthorized use or distribution may result in legal action.
+      </div>
+
+      <div class="terms-block">
+        <strong>5. Payment and Refunds</strong><br>
+        <ul class="terms-list">
+          <li>Access is granted via one-time payment</li>
+          <li>Non-refundable, except in cases of:
+            <ul class="terms-list">
+              <li>Failed transactions</li>
+              <li>Unresolved login/access issues within <strong>15 days</strong> of reporting to QuSyn/qBraid</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="terms-block">
+        <strong>6. Certification</strong><br>
+        Participants who complete the coursework and meet usage terms may receive a certificate of completion. This certificate affirms participation but does <strong>not guarantee job placement, professional advancement, or academic credit.</strong>
+      </div>
+
+      <div class="terms-block">
+        <strong>7. Termination of Access</strong><br>
+        QuSyn may revoke access without refund if any clauses—especially relating to usage and intellectual property—are violated.
+      </div>
+
+      <div class="terms-block">
+        <strong>8. Disclaimers and Limitations</strong><br>
+        <ul class="terms-list">
+          <li>The coursework is for <strong>educational purposes only</strong></li>
+          <li>QuSyn and qBraid <strong>do not guarantee employment or accreditation outcomes</strong></li>
+          <li>Both parties are <strong>fully indemnified</strong> from claims arising from content use or misuse</li>
+        </ul>
+      </div>
+
+      <div class="terms-block">
+        <strong>9. Accessibility Statement</strong><br>
+        QuSyn is committed to multilingual accessibility. Content is available in Bengali, English, Kannada, and Hindi. Format requests for disability accommodations will be considered upon request.
+      </div>
+
+      <div class="terms-block">
+        <strong>10. Tools and Integrations</strong><br>
+        QuSyn may use third-party tools for payment, learning management, and certification (e.g., Google Forms, Zoom, LMS portals). These tools operate under their own data and usage policies.
+      </div>
+
+      <div class="terms-block">
+        <strong>11. Policy Updates</strong><br>
+        QuSyn reserves the right to modify these Terms at any time. Updated versions will be posted and effective immediately unless stated otherwise.
+      </div>
+
+      <div class="terms-block">
+        <strong>12. Contact</strong><br>
+        For any queries regarding these Terms, reach out to:<br>
+        <strong>Email:</strong> <a href="mailto:info@qusyn.com">info@qusyn.com</a><br>
+        <strong>Location:</strong> Bengaluru, India
+      </div>
+
+      <!-- PRIVACY POLICIES section -->
+      <h2 class="terms-title" style="margin-top:32px;">PRIVACY POLICIES</h2>
+      <p class="terms-subtitle">QuSyn Coursework Platform — <strong>Effective Date: 6 August 2025</strong></p>
+
+      <div class="terms-block">
+        <strong>1. Data We Collect</strong><br>
+        We collect:
+        <ul class="terms-list">
+          <li>Name, email, language preference</li>
+          <li>Login credentials, access history</li>
+          <li>Payment details (via secure third-party processors)</li>
+          <li>Certification completion status</li>
+        </ul>
+      </div>
+
+      <div class="terms-block">
+        <strong>2. How We Use Your Data</strong><br>
+        <ul class="terms-list">
+          <li>To grant coursework access</li>
+          <li>To issue certifications</li>
+          <li>To communicate support or platform updates</li>
+          <li>To evaluate and improve course delivery</li>
+        </ul>
+      </div>
+
+      <div class="terms-block">
+        <strong>3. Data Sharing</strong><br>
+        Your data may be shared only with:
+        <ul class="terms-list">
+          <li><strong>qBraid</strong> for certification and support</li>
+          <li><strong>Trusted third-party services</strong> (e.g., payment platforms, hosting tools)</li>
+        </ul>
+        <strong>No data is sold, rented, or disclosed to advertisers or external entities.</strong>
+      </div>
+
+      <div class="terms-block">
+        <strong>4. Security Measures</strong><br>
+        We protect your data via:
+        <ul class="terms-list">
+          <li>Secure communication protocols (SSL/TLS)</li>
+          <li>Admin-restricted access</li>
+          <li>Routine audits for compliance</li>
+        </ul>
+      </div>
+
+      <div class="terms-block">
+        <strong>5. Your Rights</strong><br>
+        Depending on jurisdiction, users may:
+        <ul class="terms-list">
+          <li>Access their data</li>
+          <li>Request updates or deletion</li>
+          <li>Withdraw consent, where applicable</li>
+        </ul>
+        Contact: <a href="mailto:info@qusyn.com">info@qusyn.com</a>
+      </div>
+
+      <div class="terms-block">
+        <strong>6. Cookie Use</strong><br>
+        If hosted online, cookies may be used for analytics and session management.
+      </div>
+
+      <div class="terms-block">
+        <strong>7. Legal Compliance</strong><br>
+        This policy complies with Indian data protection law and relevant international standards including <strong>EU GDPR</strong>. Disputes will be handled under the jurisdiction of <strong>Bengaluru, India</strong>.
+      </div>
+
+      <div class="terms-block">
+        <strong>8. Policy Changes</strong><br>
+        This Privacy Policy may be updated periodically. Continued use of the platform signifies acceptance of the latest version.
+      </div>
+      
+      <!-- REFUND POLICIES section -->
+      <h2 id="policy-section" class="terms-title" style="margin-top:32px;">RETURN AND REFUND POLICY</h2>
+      <p class="terms-subtitle">QuSyn Coursework Platform — <strong>Effective Date: 6 August 2025</strong></p>
+
+      <div class="terms-block">
+        <strong>1. Access is granted via a one-time payment.</strong><br>
+      </div>
+      <div class="terms-block">
+        <strong>2. Purchases are non-refundable, except in cases of:</strong><br>
+        <ul class="terms-list">
+          <li>Payment processing failures</li>
+          <li>Access or login issues that remain unresolved within <strong>15 calendar days</strong> of notification to QuSyn Tech.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER (FROM NEWSLETTER) -->
   <footer>
-    <p>&copy; 2026 Eduqet. All rights reserved.</p>
+    <div class="footer-left">
+      <div class="brand">QUSYN TECH</div>
+    </div>
+    <div class="footer-right">
+      <p>&copy; 2025 Quantum Synergy. All rights reserved.</p>
+      <div class="social-links" aria-label="Social links">
+        <a href="https://www.linkedin.com/authwall?trk=bf&trkInfo=AQHiUP5zc59MHgAAAZndojwId2MxephVNgnOb6QKfoh_uzYAxxcx7PIxP5N16JQIEoY_oaSADAu9Z8E9jClvajZ4d2pxQgJtsgzMLodpyVDrOHQ6SxhV0NVkR7kdXxA1MCCt0Dc=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2Fqusyn-technologies%2F%3FviewAsMember%3Dtrue" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+        <a href="https://www.facebook.com/people/QuSyn-Tech/61580485172345/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+        <a href="https://www.youtube.com/@QuSynTech" target="_blank" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+        <a href="https://www.instagram.com/accounts/login/?next=%2Fqusyn_tech%2F&source=omni_redirect" target="_blank" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+      </div>
+    </div>
   </footer>
+
+  <script>
+    // Navbar scroll effect (FROM NEWSLETTER)
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Enhanced Smooth Scrolling with GSAP (FROM NEWSLETTER)
+    document.addEventListener('DOMContentLoaded', function() {
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+      
+      document.documentElement.style.scrollBehavior = 'auto';
+      
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const href = this.getAttribute('href');
+          
+          if (href === '#' || href === '#!') return;
+          
+          if (href.includes('.php') && !href.includes(window.location.pathname)) {
+            return;
+          }
+          
+          e.preventDefault();
+          
+          const targetElement = document.querySelector(href);
+          if (targetElement) {
+            const headerHeight = document.querySelector('nav')?.offsetHeight || 80;
+            const targetPosition = targetElement.offsetTop - headerHeight;
+            
+            gsap.to(window, {
+              duration: 1.2,
+              scrollTo: {
+                y: targetPosition,
+                autoKill: false,
+                onAutoKill: () => console.log('Scroll interrupted')
+              },
+              ease: "power2.inOut",
+              overwrite: true
+            });
+            
+            history.pushState(null, null, href);
+          }
+        });
+      });
+      
+      let scrollTimeout;
+      function smoothScrollWheel(e) {
+        if (Math.abs(e.deltaY) > 50) {
+          e.preventDefault();
+          const currentScroll = window.pageYOffset;
+          const targetScroll = currentScroll + (e.deltaY * 1.5);
+          
+          gsap.to(window, {
+            duration: 0.8,
+            scrollTo: {
+              y: targetScroll,
+              autoKill: true
+            },
+            ease: "power2.out",
+            overwrite: true
+          });
+        }
+      }
+      
+      window.addEventListener('wheel', smoothScrollWheel, { passive: false });
+      
+      window.addEventListener('beforeunload', () => {
+        window.removeEventListener('wheel', smoothScrollWheel);
+      });
+    });
+
+    // Enhanced Hamburger menu toggle (FROM NEWSLETTER)
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.querySelector('.hamburger');
+      const nav = document.querySelector('nav');
+      const navOverlay = document.querySelector('.nav-overlay');
+      const body = document.body;
+      const dropdowns = document.querySelectorAll('.dropdown');
+      const desktopDropdowns = document.querySelectorAll('.desktop-dropdown');
+      
+      // Mobile menu functionality
+      if (hamburger && navOverlay) {
+        hamburger.addEventListener('click', function() {
+          this.classList.toggle('active');
+          nav.classList.toggle('active');
+          navOverlay.classList.toggle('active');
+          body.style.overflow = navOverlay.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        navOverlay.querySelectorAll('a').forEach(link => {
+          if (!link.classList.contains('dropdown-toggle')) {
+            link.addEventListener('click', () => {
+              hamburger.classList.remove('active');
+              nav.classList.remove('active');
+              navOverlay.classList.remove('active');
+              body.style.overflow = '';
+            });
+          }
+        });
+        
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('nav') && 
+              !e.target.closest('.nav-overlay') && 
+              navOverlay.classList.contains('active')) {
+            hamburger.classList.remove('active');
+            nav.classList.remove('active');
+            navOverlay.classList.remove('active');
+            body.style.overflow = '';
+          }
+        });
+        
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && navOverlay.classList.contains('active')) {
+            hamburger.classList.remove('active');
+            nav.classList.remove('active');
+            navOverlay.classList.remove('active');
+            body.style.overflow = '';
+          }
+        });
+        
+        dropdowns.forEach(dropdown => {
+          const toggle = dropdown.querySelector('.dropdown-toggle');
+          
+          toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            dropdowns.forEach(other => {
+              if (other !== dropdown) {
+                other.classList.remove('active');
+              }
+            });
+            
+            dropdown.classList.toggle('active');
+          });
+        });
+        
+        navOverlay.addEventListener('click', function(e) {
+          if (!e.target.closest('.dropdown')) {
+            dropdowns.forEach(dropdown => {
+              dropdown.classList.remove('active');
+            });
+          }
+        });
+      }
+      
+      // Desktop dropdown functionality
+      desktopDropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.desktop-dropdown-toggle');
+        
+        toggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          desktopDropdowns.forEach(other => {
+            if (other !== dropdown) {
+              other.classList.remove('active');
+            }
+          });
+          
+          dropdown.classList.toggle('active');
+        });
+      });
+      
+      // Close desktop dropdowns when clicking elsewhere
+      document.addEventListener('click', function() {
+        desktopDropdowns.forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
+      });
+      
+      // Prevent dropdowns from closing when clicking inside them
+      desktopDropdowns.forEach(dropdown => {
+        dropdown.addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
+      });
+    });
+
+    // Force load all images immediately
+    window.addEventListener('load', function() {
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        if (!img.complete) {
+          const preloadImg = new Image();
+          preloadImg.src = img.src;
+        }
+      });
+    });
+  </script>
 </body>
 </html>
