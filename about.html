@@ -458,7 +458,7 @@
     <main>
         <!-- ===== HERO ===== -->
         <section class="hero-wrap">
-            <video class="hero-video" autoplay muted loop playsinline>
+            <video id="heroVideo" class="hero-video" autoplay muted loop playsinline>
                 <source src="images/about.mp4" type="video/mp4">
             </video>
 
@@ -622,6 +622,13 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const heroVideo = document.getElementById("heroVideo");
+            heroVideo.playbackRate = 0.5; // 0.5 = half speed
+        });
+    </script>
 
     <script>
         // Enhanced Hamburger menu toggle
