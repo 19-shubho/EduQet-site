@@ -1,63 +1,996 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us - Eduqet</title>
-  <link rel="stylesheet" href="./styles.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Our Team — QUSYN TECH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <style>
+        /* Global Reset & Settings */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: auto;
+            height: 100%;
+            background: #000;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+        }
+
+        /* ---------------- ENHANCED NAVBAR ---------------- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0.9) 100%);
+            backdrop-filter: blur(10px);
+            z-index: 1300;
+            border-bottom: 1px solid rgba(74, 144, 226, 0.2);
+            height: 80px;
+            transition: background 0.4s ease;
+        }
+
+        nav.active {
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+            z-index: 1301;
+            position: relative;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background: #fff;
+            transition: all 0.3s;
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            right: -50%;
+            width: 50%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1299;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            overflow-y: auto;
+            border-left: 1px solid rgba(74, 144, 226, 0.2);
+        }
+
+        .nav-overlay.active {
+            right: 0;
+        }
+
+        .nav-links-container {
+            list-style: none;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .nav-links-container li {
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.4s ease;
+        }
+
+        .nav-overlay.active .nav-links-container li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .nav-links-container a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 500;
+            display: block;
+            padding: 10px 20px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links-container a:hover {
+            color: #4A90E2;
+        }
+
+        .nav-links-container a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #4A90E2;
+            transition: all 0.3s;
+        }
+
+        .nav-links-container a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 0.8rem;
+            margin-left: 8px;
+            transition: transform 0.3s;
+        }
+
+        .dropdown.active .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            list-style: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .dropdown.active .dropdown-menu {
+            max-height: 200px;
+        }
+
+        .dropdown-menu li {
+            margin: 10px 0;
+        }
+
+        .dropdown-menu a {
+            font-size: 1.1rem;
+            color: #ccc;
+        }
+
+        .dropdown-menu a:hover {
+            color: #4A90E2;
+        }
+
+        .nav-links-container li:nth-child(1) { transition-delay: 0.1s; }
+        .nav-links-container li:nth-child(2) { transition-delay: 0.15s; }
+        .nav-links-container li:nth-child(3) { transition-delay: 0.2s; }
+        .nav-links-container li:nth-child(4) { transition-delay: 0.25s; }
+        .nav-links-container li:nth-child(5) { transition-delay: 0.3s; }
+        .nav-links-container li:nth-child(6) { transition-delay: 0.35s; }
+        .nav-links-container li:nth-child(7) { transition-delay: 0.4s; }
+
+        @media (max-width: 1024px) {
+            .nav-overlay {
+                width: 70%;
+                right: -70%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px 30px;
+            }
+            .nav-overlay {
+                width: 85%;
+                right: -85%;
+            }
+            .nav-links-container a {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-overlay {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 28px 40px;
+            border-top: 1px solid rgba(74, 144, 226, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #000;
+            color: #e9f2ff;
+            font-size: 0.95rem;
+            font-family: 'Inter', 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
+            margin-top: auto;
+        }
+
+        footer .footer-left,
+        footer .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        footer .brand {
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 8px;
+            color: #dbeeff;
+            text-decoration: none;
+            transition: transform .18s, background .18s;
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(135deg, #4A90E2, #00d4ff);
+            color: #001018;
+            transform: translateY(-3px);
+        }
+
+        /* HERO */
+        .hero-wrap {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        .hero-bg {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            background-image: url('images/team-grp.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: saturate(0.95) contrast(1.02);
+            pointer-events: none;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 5vh;
+            padding-left: clamp(16px, 4vw, 56px);
+        }
+
+        .heading {
+            color: #fff;
+            font-weight: 400;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            font-size: clamp(3.2rem, 12vw, 9.6rem);
+            text-shadow: 0 6px 30px rgba(0, 0, 0, 1);
+            pointer-events: none;
+        }
+
+        .canvas {
+            position: relative;
+            width: 100%;
+            background: #b3e3faff;
+            overflow: auto;
+            box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .canvas-inner {
+            padding: 60px 8% 80px;
+            color: #000;
+        }
+
+        .reveal-text {
+            font-size: clamp(1.05rem, 2.2vw, 1.9rem);
+            line-height: 1.45;
+            max-width: 950px;
+            color: #000;
+        }
+
+        .team-members {
+            padding: 64px 8%;
+            background: #fff;
+            color: #000;
+            position: relative;
+            z-index: 1200;
+        }
+
+        .team-members h2 {
+            font-size: 2.1rem;
+            margin-bottom: 26px;
+            color: #111;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 26px;
+            position: relative;
+        }
+
+        .profile {
+            background: #fff;
+            text-align: center;
+            padding-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile:hover {
+            transform: translateY(-8px) scale(1.05);
+            z-index: 100;
+            filter: brightness(1.1);
+        }
+
+        .profile:not(:hover) {
+            opacity: 1;
+            transition: opacity 0.4s ease;
+        }
+
+        .team-grid:has(.profile:hover) .profile:not(:hover) {
+            opacity: 0.4;
+            filter: grayscale(0.3);
+        }
+
+        /* Disable hover effects when profile detail is open */
+        .team-grid.detail-open .profile {
+            pointer-events: none;
+        }
+
+        .team-grid.detail-open .profile:hover {
+            transform: none;
+            z-index: 1;
+            filter: none;
+        }
+
+        .team-grid.detail-open .profile:hover img {
+            box-shadow: none;
+        }
+
+        .team-grid.detail-open .profile:not(:hover) {
+            opacity: 1;
+            filter: none;
+        }
+        
+        /* Updated image styling for consistent dimensions */
+        .profile-image-container {
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        /* .profile img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+            transition: all 0.4s ease;
+        } */
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%; /* Adjust this to ensure heads aren't cut off */
+            display: block;
+            transition: all 0.4s ease;
+        }
+
+        .profile:hover img {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-name {
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: #111;
+        }
+
+        .profile-title {
+            color: #666;
+            font-size: 0.95rem;
+            margin-top: 6px;
+        }
+
+        /* Profile detail panel - FIXED POSITIONING */
+        .profile-detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .profile-detail-overlay.active {
+            display: flex;
+        }
+
+        .profile-detail {
+            background: linear-gradient(135deg, #000000 0%, #201818 100%);
+            color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .profile-detail-content {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .profile-detail-image {
+            flex-shrink: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-detail-text {
+            flex: 1;
+        }
+
+        .profile-detail-text h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .profile-detail-text h4 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .profile-detail-text p {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.95;
+            white-space: pre-line;
+        }
+
+        .profile-detail-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 2001;
+        }
+
+        .profile-detail-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Responsive */
+        @media (max-width:720px) {
+            .heading {
+                padding-left: 4%;
+                padding-bottom: 40vh;
+                font-size: clamp(2.4rem, 18vw, 6.8rem);
+            }
+
+            .canvas-inner {
+                padding: 40px 6% 60px;
+            }
+
+            .hero-bg {
+                height: 100vh;
+            }
+
+            .profile-image-container {
+                height: 110px;
+            }
+
+            .profile img {
+                height: 110px;
+            }
+            
+            .profile-detail-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .profile-detail-image {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .profile-detail-text h3 {
+                font-size: 1.5rem;
+            }
+            
+            .profile-detail {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            footer {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            footer .footer-left,
+            footer .footer-right {
+                flex-direction: column;
+            }
+        }
+
+        main {
+            flex: 1;
+        }
+
+        /* Extra blank space below footer fix */
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #000;
+        }
+        main {
+            flex: 1 0 auto;
+        }
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
+    
 </head>
 <body>
-  <header>
-    <h1>About Us</h1>
+    <!-- Enhanced Navbar -->
     <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
+        <div class="logo">
+            <a href="/"><img src="images/qusyn.jpg" alt="QUSYN TECH Logo"></a>
+        </div>
+        <ul class="nav-links">
+            <!-- <li><a href="/qusyn/index#home">Home</a></li> -->
+            <li><a href="/">Home</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/terms.html">Terms and Conditions</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </nav>
-  </header>
-  <main>
-    <section class="mission">
-      <h2>Our Mission</h2>
-      <p>Through seamless integration of quantum physics into cutting-edge technology, we strive to ensure that our nation remains at the forefront of quantum advancements.</p>
-      <img src="mission.jpg" alt="Mission Image" class="responsive-img">
-    </section>
 
-    <section class="people">
-      <h2>Our People</h2>
-      <p>Known for our intellect, integrity and intensity, our team brings together seasoned leadership and fresh perspectives at every level.</p>
-      <div class="team-photos">
-        <img src="team1.jpg" alt="Team Photo 1" class="responsive-img">
-        <img src="team2.jpg" alt="Team Photo 2" class="responsive-img">
-      </div>
-    </section>
+    <!-- Centered Navigation Overlay -->
+    <div class="nav-overlay">
+        <ul class="nav-links-container">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/terms.html">Terms and Conditions</a></li>
+            <li><a href="/contact.html">Consult</a></li>
+        </ul>
+    </div>
 
-    <section class="solutions">
-      <h2>Our Solutions</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Q-RaNGe <span>(यादृच्छिक)</span></h3>
-          <p>A truly random number generator.</p>
+    <main>
+        <!-- HERO -->
+        <section class="hero-wrap" id="hero">
+            <div class="hero-bg" aria-hidden="true">
+                <h1 class="heading" id="heading">OUR PEOPLE</h1>
+            </div>
+            
+            <div class="canvas" id="canvas" aria-labelledby="heading" role="region">
+                <div class="canvas-inner">
+                    <p class="reveal-text" id="heroText">
+                        We are a dedicated team based in India, united by a shared vision to propel quantum innovation.
+                        Collaborating across disciplines, we strive to unlock the transformative potential of quantum technologies.
+                        Our work supports India’s strategic goals in quantum research, development, and global leadership.
+                        Driven by curiosity and precision, we tackle complex challenges with cutting-edge solutions.
+                        We believe in nurturing talent, fostering collaboration, and building a future-ready ecosystem.
+                        Together, we’re shaping the quantum frontier—one breakthrough at a time.
+
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team members -->
+        <section class="team-members" aria-label="Team members">
+            <h2>Meet the Team</h2>
+            <div class="team-grid" id="teamGrid">
+                <div class="profile" data-bio="I head the Quantum Information and Computing (QuIC) laboratory at RRI. This is one of the first labs in India to manufacture and establish the usage of entangled and heralded single photon sources towards various applications in quantum science and technologies. The current research areas include experimental secure quantum communications including quantum key distribution (QKD) in free space, fiber and integrated photonics, Quantum Teleportation as well as Device Independent random number generation; higher dimensional quantum information processing including photonic quantum computing; fundamental tests in quantum optics and quantum mechanics including generalized measurements and various studies based on static and dynamic properties of entanglement. One of the key projects being led by the lab is a collaborative project between RRI and the Indian Space Research Organization (ISRO) called 'Quantum Experiments with Satellite Technology', which is India's first funded project on satellite based long distance quantum communications. Email: urbasi.sinha@gmail.com">
+                    <!-- <img src="images/urbasi.png" alt="Urbasi Sinha"> -->
+                    <div class="profile-image-container">
+                        <img src="images/urbasi.png" alt="Urbasi Sinha">
+                    </div>
+                    <div class="profile-name">Urbasi Sinha (RRI)</div>
+                    <div class="profile-title">Founder & Executive Advisor</div>
+                </div>
+                <div class="profile" data-bio="I am a faculty member in the Centre for High Energy Physics group at the Indian Institute of Science. I am a theoretical physicist using the tools of superstring theory to try to understand the workings of nature. The microscopic understanding of how nature works needs the tools of quantum physics and Einstein's relativity. Since nature is inherently quantum, Feynman's dream was to understand it using a quantum computer. I am interested in how to frame questions in quantum field theory, gravity and particle physics for a quantum computer in order to better understand the universe. Email: asinha.iisc@gmail.com">
+                    <!-- <img src="images/an.png" alt="Aninda Sinha"> -->
+                    <div class="profile-image-container">
+                        <img src="images/an.png" alt="Aninda Sinha">
+                    </div>
+                    <div class="profile-name">Aninda Sinha (IISc)</div>
+                    <div class="profile-title">Founder & Executive Advisor</div>
+                </div>
+                <div class="profile" data-bio="I am a theoretical physicist. I have a PhD in theoretical high energy physics from Indian Institute of Science (2016). I am a project consultant at Quantum Information and Computing Lab, RRI. My focus is to leverage the tools of theoretical physics to deepen the understanding of applied quantum computing in the context of practical problem solving in the contemporary world. I use my expertise in quantum field theory and theoretical high energy physics to design robust quantum algorithms to efficiently address a multitude of pragmatic scenarios. Email: kallol@qusyn.com">
+                    <!-- <img src="images/kallolsen.png" alt="Kallol Sen"> -->
+                    <div class="profile-image-container">
+                        <img src="images/kallolsen.png" alt="Kallol Sen">
+                    </div>
+                    <div class="profile-name">Kallol Sen (RRI) </div>
+                    <div class="profile-title">Founder, Director & CEO</div>
+                </div>
+                <div class="profile" data-bio="I am a scientist in the Quantum Information and Computing lab, RRI. I have expertise in optical systems, optics, and adaptive optics. Specializing in constructing cutting-edge single photon sources, I apply this technology to explore the domain of quantum optics and technology and contributes to the lab's diverse projects. My expertise extends to optical instrumentation, including imaging and microscopy, with experiences in the field of super resolution microscopy. Email: debadrita@qusyn.com">
+                    <!-- <img src="images/debadrita.png" alt="Debadrita Ghosh"> -->
+                    <div class="profile-image-container">
+                        <img src="images/debadrita.png" alt="Debadrita Ghosh">
+                    </div>
+                    <div class="profile-name">Debadrita Ghosh (RRI) </div>
+                    <div class="profile-title">Director & CTO</div>
+                </div>
+                <div class="profile" data-bio="A seasoned civil engineer and MBA graduate from Trinity College Dublin, Ashwini Bhat brings deep operational insight from multimillion-dollar projects spanning Banking, Securities Markets, National Electricity Grids, and High-Speed Railways. Her cross-sector experience in managing complex Civil, Mechanical, and Electrical initiatives for state utilities is grounded in precision sequencing, rigorous safety protocols, and uncompromising quality standards.
+                At QuSyn Tech, Ashwini is embedding robust checks and balances into the company's foundational architecture, enabling agile experimentation and rapid iteration. Her systems thinking ensures that every operational layer—from diagnostics to deployment—is scalable, compliant, and primed for innovation. Email: ashwini@qusyn.com">
+                    <!-- <img src="https://picsum.photos/500/700?random=5" alt="Ashwini Bhatt"> -->
+                    <div class="profile-image-container">
+                        <img src="images/ashwini.jpeg" alt="Ashwini Bhatt">
+                    </div>
+                    <div class="profile-name">Ashwini Bhatt</div>
+                    <div class="profile-title">Operations In-Charge, QuSyn Tech</div>
+                </div>
+                <div class="profile" data-bio="A civil engineer and MBA from the Kellogg School of Management, Siddharth Nair brings over two decades of experience in executing large-scale Electrical and Infrastructure projects exceeding USD 500 million in value. He has spearheaded private equity funding, divestments, joint ventures, and capital raises across South East Asia, combining financial acumen with operational depth.
+                Professionals. At QuSyn Tech, he is driving strategic growth, expanding into new markets, and positioning Indian engineering excellence on the global stage. Email: siddhart@qusyn.com">
+                    <!-- <img src="https://picsum.photos/500/700?random=6" alt="Siddhart Nair"> -->
+                    <div class="profile-image-container">
+                        <img src="images/siddhart.jpeg" alt="Siddhart Nair">
+                    </div>
+                    <div class="profile-name">Siddhart Nair</div>
+                    <div class="profile-title">Business Development & Finance, QuSyn Tech</div>
+                </div>
+                <div class="profile" data-bio="I am a software developer with a Bachelor's degree in Computer Science Engineering. Possessing a strong foundation in Frontend and Backend development, adept at utilizing Python, Java, and JavaScript to build robust and scalable applications. Experienced in integrating databases such as MongoDB, MySQL, and SQLAlchemy. I have a proven track record in IoT projects, including the development and deployment of Object Detection Rovers using AWS tools. Email: shubhodeep@qusyn.com">
+                    <!-- <img src="images/sr.png" alt="Shubhodeep Roy"> -->
+                    <div class="profile-image-container">
+                        <img src="images/sr.png" alt="Shubhodeep Roy">
+                    </div>
+                    <div class="profile-name">Shubhodeep Roy</div>
+                    <div class="profile-title">Project Associate</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Profile Detail Overlay -->
+    <div class="profile-detail-overlay" id="profileDetailOverlay">
+        <div class="profile-detail" id="profileDetail">
+            <button class="profile-detail-close" id="closeDetail" aria-label="Close detail">&times;</button>
+            <div class="profile-detail-content">
+                <img class="profile-detail-image" id="detailImage" src="" alt="">
+                <div class="profile-detail-text">
+                    <h3 id="detailName"></h3>
+                    <h4 id="detailTitle"></h4>
+                    <p id="detailBio"></p>
+                </div>
+            </div>
         </div>
-        <div class="card">
-          <h3>Q-Crypt <span>(रक्षित)</span></h3>
-          <p>Protecting your digital self.</p>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-left">
+            <div class="brand">QUSYN TECH</div>
         </div>
-        <div class="card">
-          <h3>Q-Sight <span>(दृष्टि)</span></h3>
-          <p>Detecting the almost undetectable.</p>
+        <div class="footer-right">
+            <p>&copy; 2026 Quantum Synergy. All rights reserved.</p>
+            <div class="social-links" aria-label="Social links">
+                <a href="https://www.linkedin.com/authwall?trk=bf&trkInfo=AQHiUP5zc59MHgAAAZndojwId2MxephVNgnOb6QKfoh_uzYAxxcx7PIxP5N16JQIEoY_oaSADAu9Z8E9jClvajZ4d2pxQgJtsgzMLodpyVDrOHQ6SxhV0NVkR7kdXxA1MCCt0Dc=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2Fqusyn-technologies%2F%3FviewAsMember%3Dtrue" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                <a href="https://www.facebook.com/people/QuSyn-Tech/61580485172345/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                <a href="https://www.youtube.com/@QuSynTech" target="_blank" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/accounts/login/?next=%2Fqusyn_tech%2F&source=omni_redirect" target="_blank" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            </div>
         </div>
-        <div class="card">
-          <h3>Q-Lite <span>(अव्यक्त)</span></h3>
-          <p>Life of a single photon.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2026 Eduqet. All rights reserved.</p>
-  </footer>
+    </footer>
+
+    <script>
+        // Enhanced Hamburger menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('nav');
+            const navOverlay = document.querySelector('.nav-overlay');
+            const body = document.body;
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            if (hamburger && navOverlay) {
+                hamburger.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    nav.classList.toggle('active');
+                    navOverlay.classList.toggle('active');
+                    body.style.overflow = navOverlay.classList.contains('active') ? 'hidden' : '';
+                });
+                
+                navOverlay.querySelectorAll('a').forEach(link => {
+                    if (!link.classList.contains('dropdown-toggle')) {
+                        link.addEventListener('click', () => {
+                            hamburger.classList.remove('active');
+                            nav.classList.remove('active');
+                            navOverlay.classList.remove('active');
+                            body.style.overflow = '';
+                        });
+                    }
+                });
+                
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('nav') && 
+                        !e.target.closest('.nav-overlay') && 
+                        navOverlay.classList.contains('active')) {
+                        hamburger.classList.remove('active');
+                        nav.classList.remove('active');
+                        navOverlay.classList.remove('active');
+                        body.style.overflow = '';
+                    }
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && navOverlay.classList.contains('active')) {
+                        hamburger.classList.remove('active');
+                        nav.classList.remove('active');
+                        navOverlay.classList.remove('active');
+                        body.style.overflow = '';
+                    }
+                });
+                
+                dropdowns.forEach(dropdown => {
+                    const toggle = dropdown.querySelector('.dropdown-toggle');
+                    
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        dropdowns.forEach(other => {
+                            if (other !== dropdown) {
+                                other.classList.remove('active');
+                            }
+                        });
+                        
+                        dropdown.classList.toggle('active');
+                    });
+                });
+                
+                navOverlay.addEventListener('click', function(e) {
+                    if (!e.target.closest('.dropdown')) {
+                        dropdowns.forEach(dropdown => {
+                            dropdown.classList.remove('active');
+                        });
+                    }
+                });
+            }
+        });
+
+        // Fixed Profile Interactions with Modal Approach
+        document.addEventListener('DOMContentLoaded', function() {
+            const profiles = document.querySelectorAll('.profile');
+            const profileDetailOverlay = document.getElementById('profileDetailOverlay');
+            const profileDetail = document.getElementById('profileDetail');
+            const closeDetail = document.getElementById('closeDetail');
+            const teamGrid = document.getElementById('teamGrid');
+            
+            // Elements to update in detail panel
+            const detailImage = document.getElementById('detailImage');
+            const detailName = document.getElementById('detailName');
+            const detailTitle = document.getElementById('detailTitle');
+            const detailBio = document.getElementById('detailBio');
+            
+            console.log('Profile system initialized');
+            console.log('Found profiles:', profiles.length);
+
+            profiles.forEach((profile) => {
+                profile.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    const name = this.querySelector('.profile-name').textContent;
+                    const title = this.querySelector('.profile-title').textContent;
+                    const bio = this.getAttribute('data-bio');
+                    const imgSrc = this.querySelector('img').src;
+                    
+                    console.log('Profile clicked:', name);
+                    console.log('Bio data:', bio);
+                    
+                    // Update detail panel content
+                    detailName.textContent = name;
+                    detailTitle.textContent = title;
+                    detailImage.src = imgSrc;
+                    detailImage.alt = name;
+                    
+                    // Format bio with proper email display
+                    let formattedBio = bio || 'No biography available.';
+                    if (bio && bio.includes('Email:')) {
+                        const parts = bio.split('Email:');
+                        if (parts.length === 2) {
+                            formattedBio = parts[0].trim() + '\n\nEmail: ' + parts[1].trim();
+                        }
+                    }
+                    detailBio.textContent = formattedBio;
+                    
+                    // Show the overlay
+                    profileDetailOverlay.classList.add('active');
+                    teamGrid.classList.add('detail-open');
+                    
+                    // Prevent body scroll when modal is open
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Close detail panel
+            closeDetail.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeModal();
+            });
+            
+            // Close when clicking outside the modal
+            profileDetailOverlay.addEventListener('click', function(e) {
+                if (e.target === profileDetailOverlay) {
+                    closeModal();
+                }
+            });
+            
+            // Close with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && profileDetailOverlay.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+            
+            function closeModal() {
+                profileDetailOverlay.classList.remove('active');
+                teamGrid.classList.remove('detail-open');
+                document.body.style.overflow = '';
+            }
+
+            // Smooth scrolling for anchor links only (no wheel hijacking)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    
+                    if (href === '#' || href === '#!') return;
+                    
+                    if (href.includes('.php') && !href.includes(window.location.pathname)) {
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        const headerHeight = document.querySelector('nav')?.offsetHeight || 80;
+                        const targetPosition = targetElement.offsetTop - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        history.pushState(null, null, href);
+                    }
+                });
+            });
+        });
+
+        // Force load all images immediately
+        window.addEventListener('load', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                if (!img.complete) {
+                    const preloadImg = new Image();
+                    preloadImg.src = img.src;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
