@@ -1871,18 +1871,17 @@
   </script>
 
   <script>
-    async function loadLoginURL() {
-        try {
-            const res = await fetch('/config/runtime.json');
-            const config = await res.json();
+    document.addEventListener("DOMContentLoaded", async function () {
+    try {
+        const res = await fetch('/config/runtime.json');
+        const config = await res.json();
 
-            const btn = document.getElementById("beginBtn");
-            btn.href = config.login_url;
-        } catch (err) {
-            console.error("Failed to load login URL:", err);
-        }
+        const btn = document.querySelector("#beginBtn"); // selector here
+        btn.href = config.login_url;                     // URL here
+    } catch (err) {
+        console.error("Failed to load login URL:", err);
     }
-    loadLoginURL();
+});
   </script>
 </body>
 </html>
