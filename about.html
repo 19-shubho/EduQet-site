@@ -588,7 +588,7 @@
         </p>
 
         <div style="margin-top:40px;">
-            <a href="/contact.html"
+            <a id="beginBtn" href="#"
             style="padding:16px 40px;
             background:linear-gradient(135deg,#4A90E2,#00d4ff);
             color:#000;
@@ -692,6 +692,22 @@
                 });
             }
         });
+    </script>
+
+    <script>
+        async function loadLoginURL() {
+            try {
+                const res = await fetch('/config/runtime.json');
+                const config = await res.json();
+
+                const btn = document.getElementById("beginBtn");
+                btn.href = config.login_url;
+            } catch (err) {
+                console.error("Failed to load login URL:", err);
+            }
+        }
+
+        loadLoginURL();
     </script>
 </body>
 </html>

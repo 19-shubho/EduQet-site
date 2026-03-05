@@ -1446,7 +1446,7 @@
 
         <div class="hero-buttons">
           <!--<button class="btn" onclick="redirectNewUser()">New User</button>-->
-          <button class="buttonEn">BEGIN</button>
+          <button id="beginBtn" class="buttonEn" href="#">BEGIN</button>
         </div>
       </div>
     </div>
@@ -1867,6 +1867,21 @@
     window.addEventListener('unhandledrejection', function(e) {
         console.log('Unhandled promise rejection:', e.reason);
     });
+  </script>
+
+  <script>
+    async function loadLoginURL() {
+        try {
+            const res = await fetch('/config/runtime.json');
+            const config = await res.json();
+
+            const btn = document.getElementById("beginBtn");
+            btn.href = config.login_url;
+        } catch (err) {
+            console.error("Failed to load login URL:", err);
+        }
+    }
+    loadLoginURL();
   </script>
 </body>
 </html>
