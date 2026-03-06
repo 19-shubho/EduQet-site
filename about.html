@@ -368,7 +368,33 @@
             font-size: larger;
         }
         
-        
+        .feature-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:60px;
+            align-items:center;
+        }
+
+        .feature-grid.reverse{
+            direction: rtl;
+        }
+
+        .feature-grid.reverse div,
+        .feature-grid.reverse img{
+            direction:ltr;
+        }
+
+        @media(max-width:900px){
+            .feature-grid{
+                grid-template-columns:1fr;
+            }
+
+            .feature-grid.reverse{
+                direction:ltr;
+            }
+        }
+
+
         /* Responsive */
         @media (max-width:720px) {
             .heading {
@@ -519,8 +545,8 @@
                 Learning on EduQet — Student Experience
             </h2>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;">
-
+            <!-- <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;"> -->
+            <div class="feature-grid"></div>
                 <div>
                 <h3 style="margin-bottom:15px;">1. Sign Up</h3>
                 <p style="color:#ccc; line-height:1.7;">
@@ -551,7 +577,8 @@
                 Teaching on EduQet — Tutor Experience
             </h2>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;">
+            <!-- <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;"> -->
+            <div class="feature-grid reverse"></div>
                 <div>
                 <h3 style="margin-bottom:15px;">1. Register Your Organization</h3>
                 <p style="color:#ccc; line-height:1.7;">
